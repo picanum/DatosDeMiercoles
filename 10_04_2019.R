@@ -36,4 +36,3 @@ ggplot(evol_goles, aes(x=anio, y=media_goles)) +                  #Datos: evol_g
   labs(title = "Evolución del promedio de goles por partido\nen Copas del Mundo de fútbol, 1930-2018",
        subtitle = "Fuente: Open Public Domain Football Data, recopilado en el repositorio\nde Github de @R4DS_es (#DatosDeMiercoles semana 10-04-2019)",
        caption = "@Picanumeros")                                  #Por último, títulos y subtítulos del gráfico
-
