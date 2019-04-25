@@ -11,7 +11,7 @@ g <- ggplot(gapminder, aes(x = esperanza_de_vida, y=pib_per_capita,
                         col = log(poblacion), size = log(poblacion))) + geom_point() +  #Datos: X = esp. vida, Y = PIB, tamaño y color = log(población)
   theme_fivethirtyeight(base_size=24) + theme(axis.title = element_text()) +            #Usamos el tema de FiveThirtyEight con títulos para los ejes
   scale_y_log10() +   #Usamos una escala logarítmica en base 10 para el eje Y (el de PIB per cápita) 
-  scale_color_continuous(name = "log(Población)")+
+  scale_color_continuous(name = "log(Población)", breaks=c(12,15,18))+
   scale_size_continuous(name = "log(Población)")+   #Personalizamos un poco las leyendas de tamaño y color de los puntos
   facet_wrap(~continente) +       #Haremos un gráfico animado para cada uno de los continentes metiéndole como argumento a facet_wrap la variable continente
   labs(title = "Esperanza de vida y PIB per cápita en el año {round(frame_time)}",    #El año visible en el título irá cambiando a medida que la animación avance a lo largo de la variable anio
