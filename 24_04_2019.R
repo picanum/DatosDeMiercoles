@@ -41,9 +41,10 @@ ggplot(gapminder, aes(x = esperanza_de_vida, y = anio_f, fill = ..x..)) +   #Dat
   labs(x = "Esperanza de vida en años",
        y = "Año",
        caption = "@Picanumeros",
-       title = "Evolución de la densidad de la esperanza de vida en el mundo",
+       title = "Evolución de la densidad de la esperanza de vida\nen el mundo",
        subtitle = "Fuente: paquete 'gapminder' de Jenny Bryan (2017) traducido al español\ny accesible en el Github de @R4DS_es (#DatosDeMiercoles semana 24-04-2019)")+
-  theme_economist_white()     #Para no repetirme mucho, esta vez uso el tema de The Economist en blanco
+  theme_economist_white(base_size=14)+            #Para no repetirme mucho, esta vez uso el tema de The Economist en blanco
+  scale_x_continuous(breaks=seq(10,90,by=10))     #Añadimos ticks para el eje X que sean más descriptivos
 
 #En vista de que hay una mixtura de distribuciones, vamos a separar los joyplots por continentes para verla mejor
 
@@ -58,4 +59,5 @@ ggplot(aes(x = esperanza_de_vida, y = anio_f, fill = ..x..)) +
        caption = "@Picanumeros",
        title = "Evolución de la densidad de la esperanza de vida en el mundo",
        subtitle = "Fuente: paquete 'gapminder' de Jenny Bryan (2017) traducido al español\ny accesible en el Github de @R4DS_es (#DatosDeMiercoles semana 24-04-2019)")+
-  theme_economist_white()
+  theme_economist_white()+
+  scale_x_continuous(breaks=seq(10,90,by=10))
