@@ -16,7 +16,7 @@ fun_mean <- function(x){
 
 #A graficar!
 
-p1 <- datos_uip[complete.cases(datos_uip),] %>%   #Nos quitamos aquellos parlamentos de los que no tengamos datos al completo
+p1 <- datos_uip %>% filter(!is.na(cuota_genero)) %>%   #Nos quitamos aquellos parlamentos de los que no tengamos datos al completo
   ggplot(aes(x=cuota_genero, y=porcentaje_mujeres, fill=cuota_genero)) + 
   geom_boxplot()+ #geom_jitter() +    #No he usado geom_jitter para estos boxplots porque quedaba raro, aunque ahí lo dejo para quien quiera probar
   theme_minimal(base_size=13) +       #Usamos un tema discretito esta vez
@@ -27,7 +27,7 @@ p1 <- datos_uip[complete.cases(datos_uip),] %>%   #Nos quitamos aquellos parlame
   scale_fill_manual(values = viridis(2, begin = 0.5, end = 0.8))        #Metemos los colores de viridis
 
 #Para el gráfico del tamaño del parlamento hay que quitar a China, que tiene un parlamento de 2975 integrantes que supone un outlier que dificulta la visualización
-p2 <- datos_uip[complete.cases(datos_uip),] %>% filter(iso_pais != "chn") %>%   
+p2 <- datos_uip %>% filter(!is.na(cuota_genero)) %>% filter(iso_pais != "chn") %>%   
   ggplot(aes(x=cuota_genero, y=numero_integrantes, fill=cuota_genero)) + 
   geom_boxplot() + #geom_jitter() +
   theme_minimal(base_size=13) + labs(x = "¿Existe cuota de género?", y = "Número de integrantes\nde la cámara") +
@@ -36,8 +36,8 @@ p2 <- datos_uip[complete.cases(datos_uip),] %>% filter(iso_pais != "chn") %>%
   stat_summary(fun.data = fun_mean, geom="text", vjust=-0.7) + 
   scale_fill_manual(values = viridis(2, begin = 0.5, end = 0.8))
 
-p3 <- datos_uip[complete.cases(datos_uip),] %>% 
-  ggplot(aes(x=cuota_genero, y=edad_elegibilidad, fill=cuota_genero, label=outlierp2)) + 
+p3 <- datos_uip %>% filter(!is.na(cuota_genero)) %>%
+  ggplot(aes(x=cuota_genero, y=edad_elegibilidad, fill=cuota_genero)) + 
   geom_boxplot() + #geom_jitter() +
   theme_minimal(base_size=13) + labs(x = "¿Existe cuota de género?", y = "Edad mínima requerida\npara elegibilidad") +
   theme(legend.position = "none")+
@@ -45,8 +45,8 @@ p3 <- datos_uip[complete.cases(datos_uip),] %>%
   stat_summary(fun.data = fun_mean, geom="text", vjust=-0.7) + 
   scale_fill_manual(values = viridis(2, begin = 0.5, end = 0.8))
 
-p4 <- datos_uip[complete.cases(datos_uip),] %>% 
-  ggplot(aes(x=cuota_genero, y=integrante_mas_joven, fill=cuota_genero, label=outlierp3)) + 
+p4 <- datos_uip %>% filter(!is.na(cuota_genero)) %>% 
+  ggplot(aes(x=cuota_genero, y=integrante_mas_joven, fill=cuota_genero)) + 
   geom_boxplot() + #geom_jitter() +
   theme_minimal(base_size=13) + labs(x = "¿Existe cuota de género?", y = "Edad del integrante\nmás joven de la cámara") +
   theme(legend.position = "none") +
