@@ -78,3 +78,235 @@ imbd %>% filter(value == TRUE) %>%
                             title = "Boxplots de las ganancias (en millones de dólares, logaritmizadas)\nde las películas según etiqueta de género registradas en IMDB", 
                             subtitle = "Fuente: IMDB, disponible en Kaggle.\n#DatosDeMiercoles de @R4DS_es, semana 19-02-2020", 
                             caption = "@Picanumeros") + theme_minimal(base_size = 16)
+                       
+#### BOXPLOTS DE GANANCIAS POR GENERO CINEMATOGRAFICO POR DECADAS ####
+library(patchwork)
+
+#Hay que hacer los 9 gráficos por separado y despues juntarlos con la libreria patchwork.
+#Ignoro si hay alguna forma mas corta de hacerlo.
+g1 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1930 - 1940") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1930 & anio <= 1940) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1930 - 1940", y = ""
+       ) + theme_minimal(base_size = 16)
+
+g2 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1941 - 1950") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1941 & anio <= 1950) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1941 - 1950", y = ""
+  ) + theme_minimal(base_size = 16)
+
+g3 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1951 - 1960") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1951 & anio <= 1960) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1951 - 1960", y = ""
+  ) + theme_minimal(base_size = 16)
+
+g4 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1961 - 1970") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1961 & anio <= 1970) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1961 - 1970", y = ""
+  ) + theme_minimal(base_size = 16)
+
+g5 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1971 - 1980") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1971 & anio <= 1980) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1971 - 1980", y = ""
+  ) + theme_minimal(base_size = 16)
+
+g6 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1981 - 1990") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1981 & anio <= 1990) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1981 - 1990", y = ""
+  ) + theme_minimal(base_size = 16)
+
+g7 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "1991 - 2000") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 1991 & anio <= 2000) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "1991 - 2000", y = ""
+  ) + theme_minimal(base_size = 16)
+
+g8 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "2001 - 2010") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 2001 & anio <= 2010) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "2001 - 2010", y = "Logaritmo neperiano de las ganancias en millones de dólares\n(calculado como ln(1 + ganancias))"
+  ) + theme_minimal(base_size = 16)
+
+g9 <- imbd %>% filter(anio > 1929) %>%
+  mutate(decada = cut(anio, 
+                      breaks = seq(1930,2020,by=10),
+                      labels = paste(c(1930,seq(1941,2011,by=10)), seq(1940,2020,by=10), sep=" - "),
+                      include.lowest = T)) %>% 
+  filter(value == TRUE & decada == "2011 - 2020") %>% 
+  mutate(variable = factor(variable,
+                           levels = as.character(unlist(imbd %>% 
+                                                          filter(value == TRUE & anio >= 2011 & anio <= 2020) %>% 
+                                                          group_by(variable) %>% 
+                                                          summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                                          arrange(media) %>% select(variable)))
+  )) %>% 
+  ggplot(aes(y = log(1+ganancias), x = variable)) +
+  geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+  labs(x = "Género", title = "2011 - 2020", y = ""
+  ) + theme_minimal(base_size = 16)
+
+((g1 / g4 / g7) | (g2 / g5 / g8) | (g3 / g6 / g9)) + 
+  plot_annotation(title = "Boxplots de las ganancias (en millones de dólares, logaritmizadas) de las películas\nsegún etiqueta de género y década de estreno registradas en IMDB",
+                  subtitle = "Fuente: IMDB, disponible en Kaggle. #DatosDeMiercoles de @R4DS_es, semana 19-02-2020", caption = "@Picanumeros",
+                  theme = theme(plot.title = element_text(size = 16),
+                                plot.subtitle = element_text(size = 16),
+                                plot.caption = element_text(size = 16)))
+
+#### GRAFICOS ANALIZANDO ASOCIACION ENTRE STAR WARS Y ESTRENOS DE PELICULAS DE CIENCIA FICCION Y FANTASIA ####
+
+pelisxgeneroyanio %>% 
+  filter(Var2 %in% c("Ciencia Ficción")) %>%
+  mutate(Prop = 
+           as.numeric(as.character(Freq.x))/as.numeric(as.character(Freq.y))) %>%
+  filter(as.numeric(as.character(Var1))> 1960) %>%
+  ggplot(aes(x = as.numeric(as.character(Var1)), y = Prop*100)) + 
+  geom_segment(aes(x = 1977, xend = 1977, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 1980, xend = 1980, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 1983, xend = 1983, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 1999, xend = 1999, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 2002, xend = 2002, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 2005, xend = 2005, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 2015, xend = 2015, y = 0, yend = 20), col = "red") + 
+  geom_segment(aes(x = 2017, xend = 2017, y = 0, yend = 20), col = "red") + 
+  annotate("text", x = 1975, y = 20.5, label = "Episodio IV", col = "red") +
+  annotate("text", x = 1980, y = -0.5, label = "Episodio\nV", col = "red") +
+  annotate("text", x = 1985, y = 20.5, label = "Episodio VI", col = "red") +
+  annotate("text", x = 1997, y = 20.5, label = "Episodio I", col = "red") +
+  annotate("text", x = 2002, y = -0.5, label = "Episodio\nII", col = "red") +
+  annotate("text", x = 2007, y = 20.5, label = "Episodio III", col = "red") +
+  annotate("text", x = 2013, y = 20.5, label = "Episodio VII", col = "red") +
+  annotate("text", x = 2018, y = -0.5, label = "Episodio\nVIII", col = "red") +
+  geom_line(size = 1.1) + theme_minimal(base_size = 16) + 
+  labs(title = "Porcentaje de películas por año en IMDB con la etiqueta 'Ciencia Ficción' desde 1960\nEn rojo, estrenos de películas de las trilogías de Star Wars", 
+       subtitle = "Fuente: IMDB, disponible en Kaggle.\n#DatosDeMiercoles de @R4DS_es, semana 19-02-2020", 
+       x = "Año de estreno", y = "Porcentaje de películas de 'Ciencia Ficción' en ese año", caption = "@Picanumeros") + 
+  scale_x_continuous(breaks = seq(1960, 2020, by = 10)) + stat_smooth(se = F)
+
+pelisxgeneroyanio %>% 
+  filter(Var2 %in% c("Fantasía")) %>%
+  mutate(Prop = 
+           as.numeric(as.character(Freq.x))/as.numeric(as.character(Freq.y))) %>%
+  filter(as.numeric(as.character(Var1))> 1960) %>%
+  ggplot(aes(x = as.numeric(as.character(Var1)), y = Prop*100)) + 
+  geom_segment(aes(x = 1977, xend = 1977, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 1980, xend = 1980, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 1983, xend = 1983, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 1999, xend = 1999, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 2002, xend = 2002, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 2005, xend = 2005, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 2015, xend = 2015, y = 0, yend = 15), col = "red") + 
+  geom_segment(aes(x = 2017, xend = 2017, y = 0, yend = 15), col = "red") + 
+  annotate("text", x = 1975, y = 15.5, label = "Episodio IV", col = "red") +
+  annotate("text", x = 1980, y = -0.5, label = "Episodio\nV", col = "red") +
+  annotate("text", x = 1985, y = 15.5, label = "Episodio VI", col = "red") +
+  annotate("text", x = 1997, y = 15.5, label = "Episodio I", col = "red") +
+  annotate("text", x = 2002, y = -0.5, label = "Episodio\nII", col = "red") +
+  annotate("text", x = 2007, y = 15.5, label = "Episodio III", col = "red") +
+  annotate("text", x = 2013, y = 15.5, label = "Episodio VII", col = "red") +
+  annotate("text", x = 2018, y = -0.5, label = "Episodio\nVIII", col = "red") +
+  geom_line(size = 1.1) + theme_minimal(base_size = 16) + 
+  labs(title = "Porcentaje de películas por año en IMDB con la etiqueta 'Fantasía' desde 1960\nEn rojo, estrenos de películas de las trilogías de Star Wars", 
+       subtitle = "Fuente: IMDB, disponible en Kaggle.\n#DatosDeMiercoles de @R4DS_es, semana 19-02-2020", 
+       x = "Año de estreno", y = "Porcentaje de películas de 'Fantasía' en ese año", caption = "@Picanumeros") + 
+  scale_x_continuous(breaks = seq(1960, 2020, by = 10)) + stat_smooth(se = F)
