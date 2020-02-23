@@ -59,3 +59,22 @@ g <- pelisxgeneroyanio %>% filter(as.numeric(as.character(Var1)) > 1929) %>%  #Q
         )
 
 animate(g, nframes=120, height = 480, width = 480)
+                       
+#### BOXPLOT DE GANANCIAS POR GENERO CINEMATOGRAFICO ####
+
+#Se obtienen los generos ordenados segun la mediana de las ganancias, para poder ordenar despues los boxplots
+clases.ordenadas <- as.character(unlist(imbd %>% 
+                                        filter(value == TRUE) %>% 
+                                        group_by(variable) %>% 
+                                        summarise(media = median(log(1+ganancias), na.rm=T)) %>% 
+                                        arrange(media) %>% select(variable)))
+                       
+imbd %>% filter(value == TRUE) %>% 
+    mutate(variable = factor(variable,
+                             levels = clases.ordenadas)) %>% 
+                       ggplot(aes(y = log(1+ganancias), x = variable)) +
+    geom_boxplot(fill = "#ffcc66") + coord_flip() + 
+                       labs(x = "Género", y = "Logaritmo neperiano de las ganancias en millones de dólares\n(calculado como ln(1 + ganancias))", 
+                            title = "Boxplots de las ganancias (en millones de dólares, logaritmizadas)\nde las películas según etiqueta de género registradas en IMDB", 
+                            subtitle = "Fuente: IMDB, disponible en Kaggle.\n#DatosDeMiercoles de @R4DS_es, semana 19-02-2020", 
+                            caption = "@Picanumeros") + theme_minimal(base_size = 16)
