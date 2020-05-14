@@ -20,6 +20,7 @@ dat %>%
              label = ifelse(SP.POP.TOTL > 50e6, country, NA))) +  #En label registramos el nombre de todos los paises con >50M hab. (NA en otro caso)
   geom_point(aes(size = SP.POP.TOTL), alpha = .75) +  #Tamaño de los puntos ha de ser proporcional a la poblacion y transparencia del 75%
   geom_label_repel(size = 3, alpha = .75) +           #Añadimos etiquetas con los nombres de los paises como indicamos en la linea 20
+  scale_x_continuous(breaks = seq(5, 35, by = 5)) +   #Pequeño cambio al eje X (quedaba con las guías muy separadas para mi gusto)
   scale_size_continuous(range =                       #Muy importante. Con este argumento controlamos dos cosas:
                           c(3,                        #1) los limites en el tamaño de los puntos (yo puse de 3 a 50 para que se vieran todos bien)
                             50), guide = 'none') +    #2) que no salgan los indicadores de tamaño en la leyenda (ya que en este caso no aportan mucho)
