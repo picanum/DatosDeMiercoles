@@ -1,9 +1,9 @@
-library(tidyverse)
-library(extrafont)
-library(tm)
-library(tidygraph)
-library(ggraph)
-library(tools)
+library(tidyverse)  #Para el procesamiento de datos
+library(extrafont)  #Para usar tipografias de Windows en los graficos
+library(tm)         #Para el procesamiento de datos textuales
+library(tidygraph)  #Para usar herramientas del tidyverse para grafos
+library(ggraph)     #Para poder graficar los grafos (arcos)
+library(tools)      #Para usar su comando toTitleCase(), con el que podemos poner un texto en las mayusculas de titulo
 
 #Vamos a usar un .csv del GitHub https://github.com/melozap/Brooklyn-99-Pilot-Analysis donde están las frases junto a su autora o autor.
 #Alternativamente podemos scrapear los dialogos de https://brooklyn99.fandom.com/wiki/Pilot_Transcript pero a la mitad dejan de designar
