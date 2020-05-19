@@ -85,3 +85,208 @@ canciones %>%
 
 #Y ya estaria
 ggsave("dia7.png", dpi = 300, width = 12.5, height = 8)
+                            
+#### ANEXO: RIDGELINES SOBRE FRANZ FERDINAND, ARCADE FIRE, RADIOHEAD Y LOS PLANETAS ####
+                            
+#Franz Ferdinand
+
+View(spotifyr::search_spotify("Franz Ferdinand", "artist"))
+
+albums <- spotifyr::get_artist_albums("0XNa1vTidXlvJ2gHSsRi4A", "album")$id
+canciones <- do.call(rbind.data.frame,
+        lapply(1:length(albums),
+               function(i) data.frame(get_album_tracks(albums[i])[,c("id","name")],
+           album = get_album(albums[i])$name,
+           fecha = get_album(albums[i])$release_date)))
+
+canciones <- canciones %>%
+  filter(album %in% c("Franz Ferdinand",
+                      "You Could Have It So Much Better",
+                      "Tonight",
+                      #"Blood",
+                      "Right Thoughts, Right Words, Right Action",
+                      "Always Ascending"))
+
+canciones <- canciones[-which(duplicated(canciones$name)),]
+
+caract <- get_track_audio_features(canciones$id)
+
+canciones %>% left_join(caract, "id") %>%
+  ggplot(aes(x = energy
+             , y = album)) +
+  geom_density_ridges(col = "#FFF6CE",
+                               fill = "#FFE475",
+                               alpha = .75) +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.2)) +
+  theme_minimal(base_size = 14) +
+  labs(x = "Energía (0 = lo menos enérgico, 1 = lo más enérgico)",
+       y = "Álbum",
+       subtitle = "Fuente: API de Spotify accedida a través del paquete {spotifyr}.\nDesafío #30díasdegráficos con R de @R4DS_es, día 7.",
+       title = "I say, take me out! ¿Cómo ha evolucionado la energía\nde las canciones de Franz Ferdinand a través de sus álbums?",
+       caption = "@Picanumeros") +
+  theme(plot.background = element_rect("black"),
+        panel.grid = element_line(colour = "#FFF6CE", linetype = "dashed"),
+        text = element_text(colour = "#FFF6CE",
+                            face = "bold",
+                            family = "Century Gothic"),
+        axis.text = element_text(colour = "#FFF6CE")) +
+  geom_text(data = canciones %>% 
+              left_join(caract, "id") %>% 
+              group_by(album) %>% 
+              summarise(mean = median(energy)),
+            aes(x = mean, y = 1:5 + 0.4, 
+                label = paste0("Mediana = ",round(mean,2))),
+            family = "Century Gothic") +
+  annotate("label", x = 0.45, y = 4.6, size = 3,
+           label = "Esta colina menos energética\nes por 'Fade Together' y\n'Eleanor Put Your Boots On'",
+           family = "Century Gothic") +
+  annotate("label", x = 0.2, y = 3.35, size = 3,
+           label = "Y esta otra por 'Katherine Kiss Me'",
+           family = "Century Gothic")
+ggsave("franz.png", dpi = 300, width = 11.2, height = 8)
+
+#Los Planetas
+
+View(spotifyr::search_spotify("Los Planetas", "artist"))
+
+albums <- spotifyr::get_artist_albums("0N1TIXCk9Q9JbEPXQDclEL", "album")$id
+canciones <- do.call(rbind.data.frame,
+                     lapply(1:length(albums),
+                            function(i) data.frame(get_album_tracks(albums[i])[,c("name","id")],
+                                                   album = get_album(albums[i])$name,
+                                                   fecha = get_album(albums[i])$release_date)))
+
+canciones <- canciones %>%
+  filter(album %in% c("Zona Temporalmente Autónoma (Edición Especial)",
+                      "Principios Basicos De Astronomia",
+                      "Canciones para una Orquesta Química") == F)
+
+canciones <- canciones[-which(duplicated(canciones$name)),]
+
+caract <- get_track_audio_features(canciones$id[1:100])
+caract[101:nrow(canciones),] <- get_track_audio_features(canciones$id[101:nrow(canciones)])
+
+canciones %>% left_join(caract, "id") %>%
+  filter(!str_detect(name, "Demo")) %>%
+  ggplot(aes(x = duration_ms/(1000*60)
+             , y = album)) +
+  geom_density_ridges(alpha = .75, fill = "black") +
+  scale_x_continuous(breaks = seq(0, 12, by = 2)) +
+  labs(x = "DURACIÓN EN MINUTOS",
+       y = "ÁLBUM",
+       caption = "@PICANUMEROS",
+       title = "EVOLUCIÓN EN LA DURACIÓN DE LAS CANCIONES DE LOS PLANETAS",
+       subtitle = "FUENTE: API DE SPOTIFY ACCEDIDA A TRAVES DEL PAQUETE {SPOTIFYR}.\nDESAFIO #30díasdegráficos CON R DE @R4DS_es, DÍA 7.") +
+  theme_bw(base_size = 16) +
+  theme(panel.grid = element_line(colour = "grey50", linetype = "dashed"),
+    panel.background = element_rect("#FDE33A"),
+    text = element_text(family = "Verdana", face = "bold")) +
+  geom_label(data = canciones %>% 
+              left_join(caract, "id") %>% 
+              group_by(album) %>% 
+              summarise(mean = median(duration_ms/(1000*60))),
+            aes(x = mean, y = 1:9 + 0.6, 
+                label = paste0("MEDIANA = ",round(mean,1))),
+            family = "Verdana", size = 3, alpha = 0.75)
+ggsave("planetas.png", dpi = 300, width = 15.6, height = 10)
+
+#Arcade Fire
+
+View(spotifyr::search_spotify("Arcade Fire", "artist"))
+
+albums <- spotifyr::get_artist_albums("3kjuyTCjPG1WMFCiyc5IuB", "album")$id
+canciones <- do.call(rbind.data.frame,
+                     lapply(1:length(albums),
+                            function(i) data.frame(get_album_tracks(albums[i])[,c("name","id")],
+                                                   album = get_album(albums[i])$name,
+                                                   fecha = get_album(albums[i])$release_date)))
+
+canciones <- canciones %>%
+  filter(album %in% c("Reflektor (Deluxe)",
+                      "The Suburbs (Deluxe)",
+                      "The Suburbs (Deluxe Edition)") == F)
+
+canciones <- canciones[-which(duplicated(tolower(canciones$name))),]
+canciones <- canciones[-which(canciones$name %in% c("It's Never Over (Hey Orpheus)",
+                                                    "Everything_Now (continued)",
+                                                    "Infinite_Content")),]
+
+caract <- get_track_audio_features(canciones$id)
+
+canciones %>% left_join(caract, "id") %>%
+  ggplot(aes(x = valence, y = album, fill = ..x..)) +
+  geom_density_ridges_gradient() +
+  theme_minimal(base_size = 16) +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.2)) +
+  labs(x = "Índice 'valence' (positividad). 0 = lo más negativo. 1 = lo más positivo",
+       y = "Álbum",
+       title = "Las emociones de Arcade Fire a través de sus discos: de negativos a positivos",
+       subtitle = "Fuente: API de Spotify accedida a través del paquete {spotifyr}.\nDesafío #30díasdegráficos con R de @R4DS_es, día 7.",
+       caption = "@Picanumeros") +
+  scale_fill_gradientn(colours = c("darkgreen","lightblue","red")) +
+  theme(legend.position = "none",
+        plot.background = element_rect("#E5F5FF"),
+        panel.grid = element_line(colour = "grey50",
+                                  linetype = "dashed"),
+        text = element_text(family = "Source Sans Pro Black")) +
+  geom_text(data = canciones %>% 
+              left_join(caract, "id") %>% 
+              group_by(album) %>% 
+              summarise(mean = median(valence)),
+            aes(x = mean, y = c(1:4 + 0.75, 5+0.8), 
+                label = paste0("Mediana = ",round(mean,2))),
+            family = "Source Sans Pro Black")
+
+ggsave("arcade.png", dpi = 300, width = 11.2, height = 8)
+
+#Radiohead
+
+View(spotifyr::search_spotify("Radiohead", "artist"))
+
+albums <- spotifyr::get_artist_albums("4Z8W4fKeB5YxbusRsdQVPb", "album")$id
+canciones <- do.call(rbind.data.frame,
+                     lapply(1:length(albums),
+                            function(i) data.frame(get_album_tracks(albums[i])[,c("name","id")],
+                                                   album = get_album(albums[i])$name,
+                                                   fecha = get_album(albums[i])$release_date)))
+
+canciones <- canciones %>%
+  filter(album %in% c("Pablo Honey",
+                      "The Bends",
+                      "OK Computer",
+                      "Kid A",
+                      "Amnesiac",
+                      "Hail To the Thief",
+                      "In Rainbows",
+                      "The King Of Limbs",
+                      "A Moon Shaped Pool"))
+
+caract <- get_track_audio_features(canciones$id[1:100])
+caract[101:nrow(canciones),] <- get_track_audio_features(canciones$id[101:nrow(canciones)])
+
+canciones %>% left_join(caract, "id") %>%
+  ggplot(aes(x = acousticness, y = album, fill = ..x..)) +
+  geom_density_ridges_gradient() +
+  theme_minimal(base_size = 16) +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.2)) +
+  labs(x = "Índice 'acousticness'\n(0 = ninguna confianza en que la canción es acústica, 1 = total confianza)",
+       y = "Álbum",
+       title = "Instrumentalidad de las canciones de Radiohead a través de sus álbums",
+       subtitle = "Fuente: API de Spotify accedida a través del paquete {spotifyr}.\nDesafío #30díasdegráficos con R de @R4DS_es, día 7.",
+       caption = "@Picanumeros") +
+  scale_fill_gradientn(colours = c("#12519e", "#54a1cf", "#84aebe", "#96cedf", "#f8fdff")) +
+  theme(legend.position = "none",
+        panel.grid = element_line(colour = "grey50",
+                                  linetype = "dashed"),
+        text = element_text(family = "Franklin Gothic Medium")) +
+  geom_text(data = canciones %>%
+              left_join(caract, "id") %>%
+              group_by(album) %>%
+              summarise(mean = median(acousticness)),
+            aes(x = mean, y = c(1.4, 2.25, 3.25,
+                                4.5, 5.5, 6.35,
+                                7.5, 8.75, 9.75),
+                label = paste0("Mediana = ",round(mean,2))),
+            family = "Franklin Gothic Medium")
+
+ggsave("radio.png", dpi = 300, width = 11.2, height = 8)
