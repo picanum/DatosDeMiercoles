@@ -30,9 +30,9 @@ paro %>% left_join(prestacion, by = "time") %>%                         #Juntamo
   scale_x_continuous(breaks = seq(8, 26, by = 4)) +
   theme(text = element_text(family = "Source Sans Pro")) +
   labs(x = "Tasa de paro en ambos sexos (15-74 años, %)",
-       y = "Subsidio por desempleo total\nen euros de 2010 por habitante",
-       title = "Evolución de la tasa de paro y el subsidio por desempleo total\npor habitante en España entre 1999 y 2017 (Eurostat)",
+       y = "Prestación por desempleo total\nen euros de 2010 por habitante",
+       title = "Evolución de la tasa de paro y la prestación por desempleo total\npor habitante en España entre 1999 y 2017 (Eurostat)",
        subtitle = "Desafío #30díasdegráficos con R de @R4DS_es, día 13.",
-       caption = "Datasets [lfst_r_lfu3rt] para tasa de paro y [spr_exp_fun] (gasto 'Full unemployment benefits') para subsidio | @Picanumeros")
+       caption = "Datasets [lfst_r_lfu3rt] para tasa de paro y [spr_exp_fun] (gasto 'Full unemployment benefits') para la prestación | @Picanumeros")
 
 ggsave("dia13.png", dpi = 300)
