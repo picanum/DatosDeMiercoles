@@ -45,12 +45,12 @@ votodir %>% mutate(Cs = as.numeric(as.character(Cs)),         #Pasamos a numeric
   scale_color_manual(name = "Partido", values = c("orange", "dodgerblue", "red2", "purple", "green")) +
   scale_x_date(breaks = "2 months", date_labels = "%e %b\n%Y") +
   scale_y_continuous(breaks = seq(0, 30, by = 4)) +
-  #A partir de aqui estarian las anotaciones
-  geom_vline(xintercept = as.Date("2016-10-01")) +
   labs(x = "Fecha", y = "% de intención directa de voto al partido",
        title = "Evolución de la intención directa de voto observada en las encuestas a los principales\npartidos nacionales entre las elecciones generales de 2016 y las de abril de 2019",
        subtitle = paste0("Fuente: ", url, "\nDesafío #30díasdegráficos con R de @R4DS_es, día 21."),
        caption = "Curvas obtenidas con modelos LOESS con ventana 0.2 y polinomios de grado 2 | @Picanumeros") +
+  #A partir de aqui estarian las anotaciones
+  geom_vline(xintercept = as.Date("2016-10-01")) +
   annotate("text", x = as.Date("2016-10-06"), y = 5, 
            label = "Dimisión de Pedro Sánchez\ncomo secretario general\ndel PSOE", hjust = 0, family = "Source Sans Pro") +
   geom_vline(xintercept = as.Date("2017-10-01")) + 
