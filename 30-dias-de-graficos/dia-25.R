@@ -16,19 +16,23 @@ generos <- as.character(dat$genres) %>% tidy() %>%
   unnest_tokens(word, x) %>% count(word, sort = T) %>%
   top_n(10) %>% select(word)
 
+#Pasamos a vector caracter
 generos <- unlist(c(generos))
 
+#Hacemos una columna nueva que nos diga si un término concreto aparece en el nombre de un género
 for(i in 1:length(generos)){
   dat[,generos[i]] <- str_detect(dat$genres, generos[i])
 }
 
+#Pasamos a formato largo y nos quedaremos sólo con los valores de cada género si el término aparece
+#Lo que conseguimos con esto es que cada género pueda pertenecer a más de un término (que sería lo esperable)
 dat %>% pivot_longer(cols = generos, 
                      names_to = "genero",
                      values_to = "value") %>%
   filter(value == T) %>%
-  mutate(genero = factor(genero,
-                         levels = levels(as.factor(genero))[
-                           order(dat %>% pivot_longer(cols = generos, 
+  mutate(genero = factor(genero,                                                  #Hay que montar todo este jaleo si queremos ordenar
+                         levels = levels(as.factor(genero))[                      #los violines de menores a mayores valores
+                           order(dat %>% pivot_longer(cols = generos,             #Lo hacemos empleando la media
                                                       names_to = "genero",
                                                       values_to = "value") %>%
                                    filter(value == T) %>%
@@ -36,8 +40,8 @@ dat %>% pivot_longer(cols = generos,
                                    summarise(media = mean(energy)) %>%
                                    select(media))
                          ])) %>%
-  ggplot(aes(x = genero, y = energy, fill = genero)) +
-  #geom_boxplot(width = .5, alpha = .5, outlier.size = 1) +
+  ggplot(aes(x = genero, y = energy, fill = genero)) +               #El código para el ggplot es análogo al de uno con boxplots
+  #geom_boxplot(width = .5, alpha = .5, outlier.size = 1) +          #pero empleando geom_violin
   geom_point(position = position_jitter(width = .2), alpha = .4) +
   geom_violin(alpha = .5, width = 1.3) + 
   scale_fill_brewer("", palette = "Paired") +
