@@ -1,7 +1,6 @@
-library(tidyverse)
-library(extrafont)
-library(ggthemes)
-library(GGally)
+library(tidyverse)      #Preprocesamiento
+library(ggthemes)       #Uso de temáticas embellecedoras para los ggplots
+library(GGally)         #Contiene la función ggparcoord que utilizaremos para graficar las coordenadas paralelas
 
 #Los datos están descargados de Kaggle, dejo aquí el enlace:
 #https://www.kaggle.com/stefanoleone992/fifa-20-complete-player-dataset?select=players_20.csv
