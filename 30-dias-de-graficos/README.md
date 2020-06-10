@@ -10,7 +10,7 @@ En esta carpeta se encuentra el código en R de los 30 gráficos que he realizad
 
 [Día 2: líneas](https://github.com/picanum/DatosDeMiercoles/blob/master/30-dias-de-graficos/dia-2.R)
 
-![dia2](/30-dias-de-graficos/imagenes/dia2_0.png)
+![dia2](/30-dias-de-graficos/imagenes/dia2.png)
 
 [Día 3: puntos / burbujas](https://github.com/picanum/DatosDeMiercoles/blob/master/30-dias-de-graficos/dia-3.R)
 
