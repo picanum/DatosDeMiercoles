@@ -1,6 +1,8 @@
 # Desafío #30díasdegráficos con R
 
-## Índice
+En esta carpeta se encuentra el código en R de los 30 gráficos que he realizado para cada uno de los días de la iniciativa #30díasdegráficos propuesta por @R4DS_es. En el índice que se adjunta debajo se puede observar el resultado de cada uno, junto al enlace del código correspondiente.
+
+## Índice (enlace al código disponible pinchando en cada uno de los días)
 
 [Día 1: barras / columnas](https://github.com/picanum/DatosDeMiercoles/blob/master/30-dias-de-graficos/dia-1.R)
 
