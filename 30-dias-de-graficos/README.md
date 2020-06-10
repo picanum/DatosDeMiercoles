@@ -121,3 +121,5 @@ En esta carpeta se encuentra el código en R de los 30 gráficos que he realizad
 ![dia29](/30-dias-de-graficos/imagenes/dia29.png)
 
 [Día 30: diagramas de área polar o de :star:Florence Nightingale:star:](https://github.com/picanum/DatosDeMiercoles/blob/master/30-dias-de-graficos/dia-30.R)
+
+![dia30](/30-dias-de-graficos/imagenes/dia30.png)
